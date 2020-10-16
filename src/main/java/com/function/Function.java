@@ -10,7 +10,9 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 import java.util.Optional;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 /**
  * Azure Functions with HTTP Trigger.
  */
@@ -30,14 +32,46 @@ public class Function {
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        // Parse query parameter
-        final String query = request.getQueryParameters().get("name");
-        final String name = request.getBody().orElse(query);
+        String url = "jdbc:postgresql://localhost:5432/testdb";
+        String user = "user12";
+        String password = "34klq*";
+        Connection c = null;        
+        try {
+           Class.forName("org.postgresql.Driver");
+           c = DriverManager.getConnection(url, user, password);
+           stmt = c.createStatement();
+            String sql = "CREATE TABLE COMPANY " +
+                    "(ID INT PRIMARY KEY     NOT NULL," +
+                    " NAME           TEXT    NOT NULL, " +
+                    " AGE            INT     NOT NULL, " +
+                    " ADDRESS        CHAR(50), " +
+                    " SALARY         REAL)";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.close();
+        } catch (SQLException e) {
 
-        if (name == null) {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
-        } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
+           return request.createResponseBuilder(HttpStatus.OK).body(e.getMessage()).build();
         }
+            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
+    
     }
 }
+
+
+/*try (Connection con = DriverManager.getConnection(url, user, password);
+        PreparedStatement pst = con.prepareStatement("SELECT * FROM authors");
+        ResultSet rs = pst.executeQuery()) {
+
+    while (rs.next()) {
+    
+        System.out.print(rs.getInt(1));
+        System.out.print(": ");
+        System.out.println(rs.getString(2));
+    }
+
+} catch (SQLException ex) {
+
+    Logger lgr = Logger.getLogger(JavaPostgreSqlRetrieve.class.getName());
+    lgr.log(Level.SEVERE, ex.getMessage(), ex);
+}*/
