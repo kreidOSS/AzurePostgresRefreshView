@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.SQLException;
 /**
  * Azure Functions with HTTP Trigger.
  */
@@ -32,14 +33,14 @@ public class Function {
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        String url = "kreidpostgres.postgres.database.azure.com";
+        String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/postgres?sslmode=require";
         String user = "kradmin@kreidpostgres";
         String password = "Stealth45!";
         Connection c = null;        
         try {
            Class.forName("org.postgresql.Driver");
            c = DriverManager.getConnection(url, user, password);
-           stmt = c.createStatement();
+           Statement stmt = c.createStatement();
             String sql = "CREATE TABLE COMPANY " +
                     "(ID INT PRIMARY KEY     NOT NULL," +
                     " NAME           TEXT    NOT NULL, " +
@@ -52,6 +53,8 @@ public class Function {
         } catch (SQLException e) {
 
            return request.createResponseBuilder(HttpStatus.OK).body(e.getMessage()).build();
+        } catch(Exception e){
+            return request.createResponseBuilder(HttpStatus.OK).body(e.getMessage()).build();
         }
             return request.createResponseBuilder(HttpStatus.OK).body("Success!").build();
     
