@@ -35,8 +35,8 @@ public class Function {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
         String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
-        String user = "kradmin@kreidpostgres";
-        String password = "Stealth45!";
+        String user = "";
+        String password = "";
         Connection c = null;        
         try {
            Class.forName("org.postgresql.Driver");

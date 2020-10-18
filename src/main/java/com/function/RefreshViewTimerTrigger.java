@@ -24,8 +24,8 @@ public class RefreshViewTimerTrigger {
     ) {
         context.getLogger().info("Java Timer trigger function executed at: " + LocalDateTime.now());
         String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
-        String user = "kradmin@kreidpostgres";
-        String password = "Stealth45!";
+        String user = "";
+        String password = "";
         Connection c = null;        
         try {
            Class.forName("org.postgresql.Driver");
