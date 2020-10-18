@@ -32,9 +32,9 @@ public class Function {
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        String url = "jdbc:postgresql://localhost:5432/testdb";
-        String user = "user12";
-        String password = "34klq*";
+        String url = "kreidpostgres.postgres.database.azure.com";
+        String user = "kradmin@kreidpostgres";
+        String password = "Stealth45!";
         Connection c = null;        
         try {
            Class.forName("org.postgresql.Driver");
@@ -53,7 +53,7 @@ public class Function {
 
            return request.createResponseBuilder(HttpStatus.OK).body(e.getMessage()).build();
         }
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
+            return request.createResponseBuilder(HttpStatus.OK).body("Success!").build();
     
     }
 }
