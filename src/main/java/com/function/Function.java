@@ -9,6 +9,7 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+
 import java.util.Optional;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,7 +34,7 @@ public class Function {
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/postgres?sslmode=require";
+        String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
         String user = "kradmin@kreidpostgres";
         String password = "Stealth45!";
         Connection c = null;        
@@ -59,6 +60,8 @@ public class Function {
             return request.createResponseBuilder(HttpStatus.OK).body("Success!").build();
     
     }
+
+    
 }
 
 
