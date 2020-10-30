@@ -23,7 +23,7 @@ public class RefreshViewTimerTrigger {
         final ExecutionContext context
     ) {
         context.getLogger().info("Java Timer trigger function executed at: " + LocalDateTime.now());
-        String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
+        String url = "jdbc:postgresql://*your database name here*.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
         String user = "";
         String password = "";
         Connection c = null;        
@@ -31,13 +31,7 @@ public class RefreshViewTimerTrigger {
            Class.forName("org.postgresql.Driver");
            c = DriverManager.getConnection(url, user, password);
            Statement stmt = c.createStatement();
-            String sql = "CREATE MATERIALIZED VIEW IF NOT EXISTS sales.overall_sales "+ 
-            "AS "+
-            "Select nationalidnumber, firstname, lastname, emailaddress, jobtitle,"+ 
-            "salesquota,bonus, commissionpct, salesytd,saleslastyear from humanresources.employee emp "+
-            "INNER JOIN person.person person on emp.businessentityid = person.businessentityid "+
-            "INNER JOIN person.emailaddress email on person.businessentityid = email.businessentityid " +
-            "INNER JOIN sales.salesperson sales on emp.businessentityid = sales.businessentityid";
+            String sql = "REFRES MATERIALIZED VIEW sales.overall_sales ";
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();

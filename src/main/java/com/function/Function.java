@@ -34,7 +34,7 @@ public class Function {
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        String url = "jdbc:postgresql://kreidpostgres.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
+        String url = "jdbc:postgresql://*your database name here*.postgres.database.azure.com:5432/AdventureWorks?sslmode=require";
         String user = "";
         String password = "";
         Connection c = null;        
